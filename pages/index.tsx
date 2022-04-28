@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import { useRecoilValue, useRecoilState, useResetRecoilState } from "recoil";
 import styles from "/styles/Home.module.css";
 import axios from "axios";
 import { BeerType } from "../src/types/beerTypes";
+import { beerList } from "../src/recoil/beer";
 
 export async function getServerSideProps() {
   // Fetch data from external API
@@ -32,7 +34,7 @@ export async function getServerSideProps() {
 
 const Home = (props: { data: BeerType[] }) => {
   const { data } = props;
-  console.log(data);
+  const [beers, setBeers] = useRecoilState(beerList);
   return (
     <div className={styles.container}>
       {data.map((v: BeerType) => {
